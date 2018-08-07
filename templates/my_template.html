@@ -1,0 +1,81 @@
+<html>
+  <body>
+    <link rel ='stylesheet' href='/static/css/{{house}}.css' />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+
+   <form action="download_vid" method="post">
+   Link: <input type="text" name="download_path"><br>
+   <input type="submit" value="Submit" onclick="$('#loading').show();">
+   </form>
+   <div id="loading" style="display:none;"><img width='30%' src='/static/images/heavymetalkitty.gif' alt="" />Loading!</div>
+
+
+
+  <script>
+     function render_crashimage(prediction){
+
+     let img = document.getElementById('png');
+     console.log('the prediction is' + prediction);
+     switch (prediction === 1) {
+
+       case true:
+        console.log('This has been identitified as' + prediction)
+        img.src='/static/images/metallica.png';
+        break;
+
+       case false:
+        console.log('This has been identitified as ' + prediction)
+        img.src='/static/images/rush.png';
+        break;
+     }
+
+
+   };
+  </script>
+    <script>
+    $('#submit').click( () => {cool(); });
+
+    function cool(){
+      let features = {
+        'tempo': 120,
+        'mean_harmonic_ratio': 4.855 ,
+        'mean_spectral_centroid': 2000.28 ,
+        'mean_spectral_flatness': 0.013,
+        'count_delta_above_mean': 12 ,
+        'ratio_above_rmse_mean': 0.543,
+        'max_rmse': 0.201,
+        'mean_rmse': 0.079,
+        'mean_zcr': 0.066,
+        }
+
+        console.log(features);
+
+        $.ajax({
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          url: "/download_vid",  // Replace with URL of POST handler
+          dataType: "json",
+          async: true,
+          data: JSON.stringify(features),
+
+          success: (result) => {
+              $('#hard_predict').html(result['prediction']? 'Rush':'Metallica');
+              $('#soft_predict').html(result['prob_metallica']);
+          },
+          error: (result) => {
+            alert('IDK what you did, bruh!');
+
+          render_image(result['prediction'])
+
+          }
+        })
+
+      }
+
+    </script>
+
+
+
+ </body>
+</html>
