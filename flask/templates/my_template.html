@@ -1,0 +1,114 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <!-- specifically for fancy sliders, like fare -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css'/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <style>
+
+    #header {
+    background-image: url("/static/images/galaxy.jpg");
+    background-color: #17234E;
+    margin-bottom: 0;`enter code here`
+    min-height: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    color: white;
+  }
+
+  body{
+    height: 100%;
+    min-height: 100%;
+  }
+
+  #page_container{
+   min-height:100%;
+   position:relative;
+  }
+
+  .footer{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+    background:#6cf;
+  }
+   </style>
+
+
+</head>
+
+  <body>
+
+
+
+
+    <div id="page_container">
+    <div id="header" class="jumbotron text-center" style="margin-bottom:0">
+        <h1>Metallica vs. Rush</h1>
+        <p>Super Exciting Music Classifier</p>
+    </div>
+      <!-- Use navbar just as a visual divider -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark"></nav>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+       <form action="download_vid" method="post">
+       Link: <input type="text" name="download_path"><br>
+       <input id="userinput" type="submit" value="Submit" onclick="$('#loading').show();">
+       </form>
+       <div id="loading" style="display:none;"><img width='30%' src='/static/images/heavymetalkitty.gif' alt="" />Loading!</div>
+
+
+        <div class="footer">
+          <div class="jumbotron text-center" style="margin-bottom:0">
+               Like this? Follow me on <a href="https://mcassetti.github.io/">github</a>!
+          </div>
+        </div>
+      </div>
+ </body>
+ <script>
+ $('#submit').click( () => {cool(); });
+
+ function cool(){
+   let inputs = {
+     //'url' = $('#userinput').val()
+     }
+
+     console.log(inputs);
+
+     $.ajax({
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       url: "/download_vid",  // Replace with URL of POST handler
+       dataType: "json",
+       async: true,
+       data: JSON.stringify(response),
+
+       success: (response) => {
+           $('#hard_predict').html(response['prediction']? 'rush':'metallica');
+
+       },
+       error: (response) => {
+         alert('IDK what you did, bruh!');
+
+       render_image(response['prediction'])
+
+       }
+     })
+
+   }
+
+ </script>
+
+</html>

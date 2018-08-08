@@ -1,0 +1,55 @@
+<html>
+  <body>
+    <link rel ='stylesheet' href='/static/css/{{house}}.css' />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+
+   <form action="download_vid" method="post">
+   Link: <input type="text" name="download_path"><br>
+   <input type="submit" value="Submit" onclick="$('#loading').show();">
+   </form>
+   <div id="loading" style="display:none;"><img width='30%' src='/static/images/heavymetalkitty.gif' alt="" />Loading!</div>
+
+
+    <script>
+    $('#submit').click( () => {cool(); });
+
+    function cool(){
+      let features = {
+        'tempo': 120,
+        'mean_harmonic_ratio': 4.855 ,
+        'mean_spectral_centroid': 2000.28 ,
+        'mean_spectral_flatness': 0.013,
+        'count_delta_above_mean': 12 ,
+        'count_rmse_above_mean': 0.543,
+        'max_rmse': 0.201,
+        'mean_rmse': 0.079,
+        'mean_zcr': 0.066,
+        }
+
+        console.log(features);
+
+        $.ajax({
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          url: "/download_vid",  // Replace with URL of POST handler
+          dataType: "json",
+          async: true,
+          data: JSON.stringify(features),
+          success: (result) => {
+              $('#hard_predict').html(result['prediction']? 'Rush':'Metallica');
+              $('#soft_predict').html(result['prob_metallica']);
+          },
+          error: (result) => {
+            alert('IDK what you did, bruh!');
+          }
+        })
+
+      }
+
+    </script>
+
+
+
+ </body>
+</html>
